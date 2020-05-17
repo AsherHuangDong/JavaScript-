@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script>
+		//类的声明和实例化
+
+		//js中类的声明
+
+		var Animal = function () {
+			this.name = 'Animal';
+		}
+
+		console.log(new Animal());
+
+
+		//es6中类的声明
+		class Animal2{
+			constructor(){
+				this.name = 'Animal2';
+			}
+		}
+
+		console.log(new Animal2());
+
+
+
+
+
+		//实现继承的几种方式
+
+		//1.第一种借助构造函数实现继承：缺点：只能继承父类属性，不能继承父类原型中的属性
+		function parent1(){
+			this.name = 'parent1'
+		}
+		function child1 () {
+			parent1.call(this)
+			this.type = 'child1'
+		}
+		console.log(new child1());
+
+
+		//2.借助原型链实现继承:缺点:我们只改了s1这个实例的属性，却发现Child2的其他实例的属性都一起改变了，因为s1修改的是它原型的属性，原型的属性修改，所有继承自该原型的类的属性都会一起改变，因此Child2的实例之间并没有隔离开来，这显然不是我们想要的。
+		function parent2(){
+			this.name = 'parent2'
+			this.play = [1,2,4]
+		}
+		function child2(){
+			this.type = 'child2'
+		}
+
+		child2.prototype = new parent2();
+
+		console.log(new child2);
+
+
+		var s1 = new child2()
+		var s2 = new child2()
+		s1.play.push(3);
+		console.log(s1.play);
+		console.log(s2.play);
+
+
+		//3.组合方式:缺点：这种方法仍不完美，因为创建一个子类的实例的时候，父类的构造函数执行了两次。
+		function parent3(){
+			this.name = 'parent3'
+			this.play = [1,2,3]
+		}
+		function child3(){
+			parent3.call(this)//一次
+			this.type = 'child3'
+		}
+
+		child3.prototype = new parent3();//两次
+
+		var s3 = new child3();
+		var s4 = new child3();
+
+
+		s3.play.push(4)
+		console.log(s3);
+		console.log(s4);
+
+		//4.组合方式优化;缺点：可以看到s5是new Child4()出来的，但是他的constructor却是Parent4.这是因为Child4这个类中并没有构造函数，它的构造函数是从原型链中的上一级拿过来的，也就是Parent4。
+
+		function parent4(){
+			this.name = 'parent4'
+			this.play = [1,2,3]
+		}
+		function child4(){
+			parent4.call(this)
+			this.type = 'child4'
+		}
+
+		child4.prototype = parent4.prototype
+
+		var s5 = new child4()
+		var s6 = new child4();
+
+
+		s5.play.push(4)
+
+		console.log(s5);
+		console.log(s6);
+		console.log(s5 instanceof child4,s6 instanceof child4)
+		console.log(s5.constructor);
+
+
+		//5.组合的完美优化
+		function parent5(){
+			this.name = 'parent5'
+			this.play = [1,2,3]
+		}
+		function child5(){
+			parent5.call(this)
+			this.type = 'child5'
+		}
+
+		//把子类的原型指向通过object.create创建的中间对象
+		child5.prototype = Object.create(parent5.prototype);
+
+
+		//把child5的原型的构造函数指向自己
+		child5.prototype.constructor = child5;
+
+		var s7 = new child5()
+		var s8 = new child5()
+		s7.play.push(4)
+		console.log(s7,s8);
+		console.log(s7 instanceof child5, s8 instanceof child5);
+		console.log(s7.constructor);
+
+        var food = {
+        	name:'qiezi',
+        	say:function(){
+        		console.log(this.name);
+        	}
+        }
+
+        console.log(food);
+
+		
+
+	</script>
+</body>
+</html>

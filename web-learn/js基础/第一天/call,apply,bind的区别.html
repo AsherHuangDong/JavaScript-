@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+
+<body>
+	<script>
+		let a = {
+			value: 1
+		}
+		function getValue(name, age) {
+			console.log(name);
+			console.log(age);
+			console.log(this.value);
+		}
+		getValue.call(a, 'jam', 24);
+		getValue.apply(a, ['look', 12]);
+		getValue.bind(a, 'food', 22)();
+		//模拟实现call
+		Function.prototype.myCall = function (obj) {
+			//判断是否传入该对象，如果有指向该对象否则指向window
+			var obj = obj || window;
+			// 给obj添加一个属性
+			// getValue.call(a,'jam',24) => a.fn = getValue;
+			obj.fn = this;
+			// 将obj后面的参数取出来
+			var args = [...arguments].slice(1);
+			// getValue.call(a,'jam',24) => a.fn('jam',24);
+			var result = obj.fn(...args);
+			// 删除obj.fn
+			delete obj.fn;
+			return result;
+		}
+
+		Function.prototype.myBind = function (obj) {
+			if (typeof this !== 'function') {
+				throw new TypeError('Error')
+			}
+			var _this = this;
+			var args = [...arguments].slice(1);
+			return function F() {
+				if (this instanceof F) {
+					return new _this(...args, ...arguments)
+				}
+				return _this.apply(obj, args.concat(...arguments));
+			}
+		}
+		getValue.myCall(a, 'mingxing', 22);
+		getValue.myBind(a, 'liuxing', 33)();
+	</script>
+</body>
+
+</html>

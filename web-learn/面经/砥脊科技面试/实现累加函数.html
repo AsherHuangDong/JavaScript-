@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function add(a) {
+            let arr = [].slice.call(arguments);
+            let s = arr.reduce((item, sum) => {
+                return sum + item;
+            }, 0)
+            function add1(b) {
+                let arr1 = [].slice.call(arguments);
+                s += arr1.reduce((item, sum) => {
+                    return sum + item;
+                })
+                return add1;
+            }
+            add1.toString = function () { return s };
+            return add1;
+        }
+
+
+        console.log(add(1, 2, 3)(2));
+    </script>
+</body>
+
+</html>

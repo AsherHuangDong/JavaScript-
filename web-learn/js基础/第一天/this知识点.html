@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script>
+		
+		//什么是this：this就是调用函数的那个对象
+
+		//this要在执行时才能确认，定义时无法确认
+
+		//例：
+		var a = {
+			name:'A',
+			fn:function(){
+				console.log(this.name)
+			}
+		}
+
+		a.fn();//A  //this === a
+		a.fn.call({name:'B'}) //B  //this === {name:'B'}
+		var fn1 = a.fn
+		fn1()//空 //this === window 
+		
+		//有代码输出结果可得：虽然发fn定义在a对象中，但是fn中this的指向并不是总是指向a，谁调用fn，this就指向谁
+
+		//this的使用场景：
+		// 1.作为构造函数执行
+		// 2.作为对象属性执行
+		// 3.作为普通函数执行
+		// 4.call apply bind
+
+		//作为构造函数执行：
+		 function Foo(name){
+		 	this.name = name;
+		 }
+		 var f = new Foo('zhangsan')
+
+		 //作为对象属性：
+
+		 var obj = {
+		 	name:'A',
+		 	printName:function(){
+		 		console.log(this.name);
+		 	}
+		 }
+		 obj.printName();
+
+		 //作为普通对象：
+		 function fn(){
+		 	console.log(this);
+		 }
+		 fn()
+
+		 //call apply bind 作用：
+		 //1.改变函数this对象的指向
+		 //2.第一个参数都是this要指向的对象
+		 //3.都可以利用后续参数传参
+
+		 //区别：
+		 //1.call和apply都是对函数直接调用，bind方法返回的仍是一个函数，因此后面还需要()来进行调用。bind不是在函数执行时调用的，而是在函数声明时调用的,bind只能在函数表达式中使用，不能再函数声明中使用。
+		 //2.
+		 //例子：
+		 var xw = {
+		 	name:'小王',
+		 	age :10,
+		 	say:function(school,grade){
+		 		console.log(this.name+','+this.age+','+school+','+grade)
+		 	}
+		 }
+		 var xh = {
+		 	name:'小红',
+		 	gender:'女',
+		 	age:12
+		 }
+		 xw.say('实验小学','六年级4班');
+
+		 //使用wx的say方法显示xh的数据
+		 //1.call
+		 xw.say.call(xh,'实验小学','六年级1班')
+
+		 //2.bind
+		 xw.say.bind(xh)('实验小学','六年级2班');
+
+		 //3.apply
+		 xw.say.apply(xh,['实验小学','六年级3班'])
+
+		 //1.函数表达式调用bind,函数声明中不能调用bind
+
+		 //正确实例：
+		 var fn1 = function(name,age){
+		 	console.log(name,age);
+		 	console.log(this);
+		 }.bind({y:200});
+
+		 fn1('list',22); 
+
+		 //错误实例:
+		 function fn3(name,age){
+		 	console.log(name,age);
+		 	console.log(this);
+		 }
+		 fn3('jam',22)
+	</script>
+</body>
+</html>

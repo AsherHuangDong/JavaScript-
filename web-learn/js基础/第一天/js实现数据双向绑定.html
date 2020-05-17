@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id='app'>
+		<input type="text" id='in'>
+		<p id='msg'></p>
+	</div>
+	<script>
+		var a = {}
+		Object.defineProperty(a,'newProp', {
+			get:function () {
+				return a;
+			},
+			set:function(newVal){
+				document.getElementById('in').value = newVal;
+				document.getElementById('msg').innerHTML = newVal; 
+			}
+		})
+		document.addEventListener('keyup', function(e){
+			a.newProp = e.target.value;
+		})
+	</script>
+</body>
+</html>

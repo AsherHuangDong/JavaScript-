@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script>
+		//函数柯里化
+		function add(x,y,z){
+			return x+y+z;
+		}
+
+		function add1(x){
+			return function(y){
+				return function(z){
+					return x+y+z;
+				}
+			}
+		}
+
+		console.log(add(1,2,3))
+		console.log(add1(1)(2)(3));
+	</script>
+</body>
+</html>

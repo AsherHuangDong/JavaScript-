@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+</head>
+<body>
+  <button onclick="copyUrl(data)">
+    复制粘贴
+  </button>
+  <script>
+    function copyUrl(data){
+        console.log('ffff');
+        let url = data;
+        let oInput = document.createElement('input');
+        oInput.value = url;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象;
+        console.log(oInput.value)
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        this.$message({
+          message: '已成功复制到剪切板',
+          type: 'success'
+        });
+        oInput.remove()
+      }
+  </script>
+</body>
+</html>

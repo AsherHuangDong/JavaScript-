@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>求窗口大小兼容性写法</title>
+</head>
+<body>
+    <div></div>
+</body>
+<script>
+    // 浏览器窗口可视区大小(不包括工具栏和滚动条等边线)
+    var client_w = document.documentElement.clientWidth || document.body.clientWidth
+    var client_h = document.documentElement.clientHeight || document.body.clientHeight
+
+    // 网页内容实际宽高(包括工具栏和滚动条等边线)
+    var scroll_w = document.documentElement.scrollWidth || document.body.scrollWidth
+    var scroll_h = document.documentElement.scrollHeight || document.body.scrollHeight
+
+    // 网页内容实际宽高(不包括工具栏和滚动条等边线)
+    var offset_w = document.documentElement.offsetWidth || document.body.offsetWidth
+    var offset_h = document.documentElement.offsetHeight || document.body.offsetHeight
+
+    // 滚动的高度
+    var scroll_Top = document.documentElement.scrollTop || document.body.scrollTop
+
+    console.log(client_w, client_h, scroll_w, scroll_h, offset_w, offset_h, scroll_Top);
+
+</script>
+</html>

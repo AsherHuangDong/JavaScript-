@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   
+</body>
+<script>
+  /*
+   这是cookie要在服务器环境下
+   具体方法：document.cookie = "key=value"
+  */ 
+
+  document.cookie = "name=jam";
+  document.cookie = "age=12";
+  console.log(document.cookie);
+  // 设置cookie，封装方法
+  function setCookie(key, value, time){
+      var oDate = new Date();
+      oDate.setDate(oDate.getDate() + time);
+      document.cookie = key+"="+value+";exprires="+oDate.toDateString();
+  }
+  //getCookie获取cookie
+  function getCookie(key){
+      var arr = document.cookie.split(";");
+      for(var i=0;i<arr.length;i++){
+          var arr1 = arr[i].split("=");
+          if(arr1[0] === key){
+              return docodeURI(arr1[1]);
+          }
+      }
+  }
+  //移除cookie
+  function removeCookie(key){
+      setCookie(key, "", -1);//把cookie设置为过期.
+  }
+
+  setCookie('jam',12,1)
+  console.log(document.cookie)
+</script>
+</html>

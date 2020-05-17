@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in users" v-if="item.name === 'jam'" :key="item.index">{{item.name}}</li>
+        </ul>
+        <ul>
+            <li v-for="item in user1" :key="item.index">{{item.name}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    /*
+    v-for和v-if不应该一起使用，必要情况下应该替换成computed属性。
+    原因：v-for比v-if优先，如果每一次都需要遍历整个数组，将会影响速度，
+    尤其是当之需要渲染很小一部分的时候。
+    */
+    var vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                users: [
+                    {
+                        name: 'jam'
+                    },
+                    {
+                        name: 'food'
+                    },
+                    {
+                        name: 'look'
+                    }
+                ]
+            }
+        },
+        computed: {
+            user1: function () {
+                return this.users.filter(user => {
+                    return user.name === 'jam' ? user.name : '';
+                })
+            }
+        },
+    })
+
+    Vue.component('table',{
+        
+    })
+</script>
+
+</html>

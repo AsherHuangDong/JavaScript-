@@ -1,0 +1,174 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.main{
+	width: 400px;
+	height: 400px;
+	padding: 100px;
+}
+.clip{
+	text-overflow: clip;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 200px;
+	height: 30px;
+	background: #ccc;
+	-webkit-text-fill-color: blue;/*文字内部填充颜色*/
+	-webkit-text-stroke-color: red;/*文字边界填充颜色*/
+	-webkit-text-stroke-width: 2px;/*文字边界宽度*/
+}
+.ellipsis{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 20px;
+	width: 200px;
+	background: #f2f2f2;
+	-webkit-text-fill-color: aqua;
+	-webkit-text-stroke-color: blanchedalmond;
+	-webkit-text-stroke-width: 1px;
+}
+.multi-column{
+	margin-top: 10px;
+	width: 230px;
+	height: 70px;
+	color: blue;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: -webkit-box;
+	text-shadow: 2px 4px 3px hsla(200, 43%, 42%, 0.8);
+	word-break: break-all;/*允许在单词内换行,keep-all:只能在半角空格或连字符处换行*/
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	
+}
+.multi-line{
+	margin-top: 10px;
+	border: 1px solid #000000;
+	width: 600px;
+	height: 70px;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	word-break: keep-all;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	-webkit-box-orient: vertical;/*设置或检索伸缩盒对象的子元素的排列方式*/
+	color: rgba(150, 200, 18, 0.5);
+	border-radius: 5px;
+	box-shadow:2px 5px 0px 0px #ff00ff;
+	-webkit-box-reflect: below 20px;
+	background-image: -webkit-gradient(linear,0% 0%,100% 0%,from(rgba(100,150,203,0.5)),to(hsla(122,40%,33%,0.66)));
+}
+.background-clip{
+	margin-top: 100px;
+	background: url('./me.jpg') 10px center no-repeat;
+}
+.boxcontainer{
+	width: 600px;
+	display: -webkit-box;
+	display: -moz-box;
+	border: 1px solid black;
+	-webkit-box-orient: horizontal;/*他表示水平排列的盒子模型*/
+	-moz-box-orient: horizontal;/*他表示水平排列的盒子模型*/
+}
+.item{
+	background: blue;
+	margin: 2px;
+	padding: 20px;
+	font-weight: bold;
+	color: #fff;
+	font-family: Arial, sans-serif;
+}
+.boxflex{
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+.boxflex2{
+	-webkit-box-flex: 2;
+	-moz-box-flex: 2;
+	box-ordinal-group: 4;
+}
+.display{
+	margin-top: 10px;
+	display: flex;
+	width: 600px;
+	border: 1px solid black;
+}
+.item1{
+	background: green;
+	margin: 2px;
+	padding: 20px;
+	font-weight: bold;
+	color: #fff;
+	font-family: Arial, sans-serif;
+}
+.flex{
+	flex: 1;
+	order: -1;
+}
+
+/*
+	transition: 过渡
+	transition-property：用于指定过渡的性质，比如 transition-property:backgrond 就是指 backgound 参与这个过渡
+
+	transition-duration：用于指定这个过渡的持续时间
+
+	transition-delay：用于制定延迟过渡的时间
+
+	transition-timing-function：用于指定过渡类型，
+	有 ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier
+
+*/
+.transition{
+	margin-top: 10px;	
+	width: 400px;
+	height: 200px;
+	background-color: #ff00ff;
+	transition: background-color 0.3s linear;
+}
+.transEnd{
+	background-color: red;
+}
+
+/* Transform，其实就是指拉伸，压缩，旋转，偏移等等一些图形学里面的基本变换*/
+.transform{
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+}
+.skew{
+	transform: skew(50deg);/*倾斜*/
+	padding: 20px;	
+}
+.scale{
+	transform: scale(2, 0.5);/*缩放*/
+	padding: 20px;	
+}
+.rotate{
+	transform: rotate(30deg);/*旋转,顺时针旋转30度*/
+	padding: 20px;
+}
+.translate{
+	transform: translate(20px,20px);/*平移,向右和向下平移了20px*/
+}
+
+/**/
+
+@keyframes animation{
+	0%{
+		opacity: 0;
+		font-size: 12px;
+	}
+	100%{
+		opacity: 1;
+		font-size: 24px;
+	}
+}
+
+.animation{
+	animation-name: animation;
+	animation-duration: 1.5s;/*表示动画持续时间*/
+	animation-iteration-count: infinite;/*动画重复次数，默认为1,infinite表示无数次*/
+	animation-direction: alternate;/*动画执行完一次后方向的变化方式（如第一次从右向左，第二次则从左向右）*/
+	animation-timing-function: ease-in-out;/*表示变化的模式*/
+}

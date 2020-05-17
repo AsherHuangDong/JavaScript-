@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+
+<body>
+	<script>
+		//浅拷贝：
+		let obj = {
+			a: 100
+		}
+		let m = obj;
+		m.a = 200;
+		console.log(m);
+		console.log(obj);
+
+		//深拷贝方法(只含有一层数据的对象)
+		let n = Object.assign({}, obj);
+		n.a = 300;
+		console.log(n);
+		console.log(obj);
+		let s = { ...obj };
+		s.a = 400;
+		console.log(s);
+		console.log(obj);
+		//深拷贝：递归实现深拷贝
+		function deepCopy(obj) {
+			if (!obj || typeof obj !== 'object') {
+				throw new new Error('error arguments');
+			}
+			const obj1 = Array.isArray(obj) ? [] : {};
+			for (let key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					if (obj[key] && typeof obj[key] === 'object') {
+						obj1[key] = deepCopy(obj[key]);
+					} else {
+						obj1[key] = obj[key]
+					}
+				}
+			}
+			return obj1;
+		}
+
+		let k = deepCopy(obj);
+		k.a = 550;
+		console.log(k);
+		console.log(obj);
+		//使用JSON.parse(把JSON字符串反序列化为一个js对象)和JSON.stringify(把一个js对象序列化为一个JSON字符串)
+		let h = JSON.parse(JSON.stringify(obj))
+		h.a = 600;
+		console.log(h);
+		console.log(obj);
+
+
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+<div id="real_dom">
+    <p>Real Dom</p>
+    <div>cannot update</div>
+    <ul>
+        <li class="item">Item 1</li>
+        <li class="item">Item 2</li>
+        <li class="item">Item 3</li>
+    </ul>
+</div>
+
+<script>
+    /*
+     总结：我们会有两个虚拟DOM(js对象， new/old通过diff算法进行比较)
+          1.用户交互我们操作数据变化 new虚拟DOM，
+          2.old虚拟DOM 会映射成实际的DOM(JS对象生成的DOM文档)通过 DOM fragment操作给浏览器渲染
+          3.当修改 new虚拟DOM，会把 newDOM 和 oldDOM 通过diff算法比较，
+          4.得出diff结果数据表(REPLACE(节点类型改变),
+                            REORDER(节点类型没变，仅仅属性或属性值改变), 
+                            PROPS(节点 新增 或 删除 或 移动了),
+                            TEXT(文本内容改变,直接改变文字内容));
+          5.最后再把diff结果通过DOM fragment更新到浏览器DOM中。
+
+          注：通过使用 JS 中的 DOM fragment 统一计算出所有变化后统一更新一次DOM，
+             实现了 浏览器DOM 的一次性更新。
+    */
+    // 构建虚拟dom
+    function Element(tagName, props, children) {
+        if (!(this instanceof Element)) {
+            return new Element(tagName, props, children);
+        }
+
+        this.tagName = tagName;
+        this.props = props || {};
+        this.children = children || [];
+        this.key = props ? props.key : undefined;
+        let count = 0;
+        this.children.forEach(child => {
+            if (child instanceof Element) {
+                count += child.count;
+            }
+            count++;
+        });
+        this.count = count;
+    }
+
+
+    //将 虚拟dom 映射到真实dom
+    Element.prototype.render = function () {
+        const el = document.createElement(this.tagName);
+        const props = this.props;
+
+        for (const propName in props) {
+            setAttr(el, propName, props[propName]);
+        }
+
+        this.children.forEach(child => {
+            const childEl = (child instanceof Element) ?
+                child.render() : document.createElement(child.tagName);
+
+            el.appendChild(childEl);
+        })
+
+        return el;
+    }
+
+    //js模拟实现dom节点虚拟dom
+    const tree = Element('div', { id: 'virtual-container' }, [
+        Element('p', {}, ['virtual Dom']),
+        Element('div', {}, ['before_update']),
+        Element('ul', {}, [
+            Element('li', { class: 'item' }, ['Item 1']),
+            Element('li', { class: 'item' }, ['Item 2']),
+            Element('li', { class: 'item' }, ['Item 3']),
+        ])
+    ])
+
+    const root = tree.render();
+    document.getElementById('virtualDom').appendChild(root);
+    // diff算法，比较虚拟dom 和 目前真实dom;
+    const newTree = Element('div', { id: 'virtual-container' }, [
+        Element('h3', {}, ['Virtual Dom']),
+        Element('div', {}, ['after Dom']),
+        Element('ul', {}, [
+            Element('li', { class: 'item' }, ['item1']),
+            Element('li', { class: 'item' }, ['item2']),
+        ])
+    ]);
+
+
+    let newDom = newTree.render();
+
+
+    //平层diff算法,分为四种情况:
+
+    // 1.节点类型变了：如 p标签 变成 h3标签，我们将这个过程成为 REPLACE(代替)。
+    //   直接将旧节点卸载并装载新节点，旧节点包括下面的子节点都将被卸载，
+    //   如果新节点和旧节点仅仅是类型不同，
+    //   但下面的子节点都相同时，这样做的效率不高。
+
+    /*
+      2.节点类型一样，仅仅属性或属性值变了。我们将这个过程成为 PROPS.
+        此时不会出现节点的卸载和装载，而是节点的更新。
+    */
+
+    function diffProps(oldNode, newNode) {
+        const oldProps = oldNode.props;
+        const newProps = newNode.props;
+
+        let key;
+
+        //存储与旧节点不相同的的节点属性或新增的节点属性。
+        const propsPatches = {};
+
+        //节点属性是否更新了。
+        let isSame = true;
+
+        //找出不同的 props
+        for (key in oldProps) {
+            if (newProps[key] !== oldProps) {
+                isSame = false;
+                propsPatches[key] = newProps[key];
+            }
+        }
+
+        //找出新的 props
+        for (key in newProps) {
+            if (!oldProps.hasOwnProperty(key)) {
+                isSame = false;
+                propsPatches[key] = newProps[key];
+            }
+        }
+
+        return isSame ? null : propsPatches;
+    }
+
+    /*
+     3.文本变了,文本对也是一个Text Node,直接修改文字内容就可以，
+      我们将这个过程成为 Text。
+    */
+
+    /*
+     4.移动/增加/删除子节点，我们将这个过程成为 REORDER。
+    */
+
+    //映射成真实DOM 
+    function dfsWalk(node, walker, patches) {
+        const currentPatches = patches[walker.index];
+
+        const len = node.childNodes ? node.childNodes.length : 0;
+
+        for (let i = 0; i < len; i++) {
+            walker.index++;
+            dfsWalk(node.childNodes[i], walker, patches);
+        }
+
+        if (currentPatches) {
+            applyPatches(node, currentPatches);
+        }
+    }
+
+    //更新 dom
+    function applyPatches(node, currentPatches) {
+        currentPatches.forEach(currentPatch => {
+            switch (currentPatch) {
+                case REPLACE: {
+                    const newNode = (typeof currentPatch.node === 'string')
+                        ? document.createTextNode(currentPatch.node)
+                        : currentPatch.node.render();
+                    node.parentNode.replaceChild(newNode, node);
+                    break;
+                }
+                case REORDER: {
+                    reorderChildren(node, currentPatch.moves);
+                    break;
+                }
+                case PROPS: {
+                    setProps(node, currentPatch.props);
+                    break;
+                }
+                case TEXT: {
+                    if (node.textContent) {
+                        node.textContent = currentPatch.content;
+                    } else {
+                        node.nodeValue = currentPatch.content;
+                    }
+                }
+                default:
+                    throw new Error(`Unknown patch type ${currentPatch.type}`);
+            }
+        })
+    }
+
+</script>

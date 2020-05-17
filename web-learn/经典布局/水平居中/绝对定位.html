@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#parent{
+		width: 400px;
+		height: 400px;
+		position: relative;
+		background: blue;
+	}
+
+	#son{	
+		width: 200px;
+		height: 200px;
+		position: absolute;
+		left: 50%;
+		margin-left: -100px;/*需要知道元素宽度*/
+		background: green;
+	}
+
+	#parent1{
+		width: 400px;
+		height: 400px;
+		background: red;
+		position: relative;
+	}
+
+	#son1{
+		width: 300px;
+		height: 300px;
+		background: orange;
+		position: absolute;
+		transform: translateX(-50%);/*兼容性不太好*/
+		left: 50%;
+	}
+</style>
+<body>
+	<div id="parent">
+		<div id="son">
+		</div>
+	</div>
+	
+
+	<div id="parent1">
+		<div id="son1"></div>
+	</div>
+</body>
+</html>

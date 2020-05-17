@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="app">
+		<p>使用输出下面字符串中的数字</p>
+		<span id='string'>run1234dom</span>
+	</div>
+	<script>
+		var s = document.getElementById('string').innerText
+		var app = document.getElementById('app')
+		var red = /[1-9]+/
+		var s1 = s.match(red)
+		document.write(s1);
+		console.log(s1);
+		var m = ' xiao ming ll  '
+		document.write(m)
+		var patt = /\s*/g
+	    var m1 = m.replace(patt,'')
+	    var b = document.createElement('br')
+	    app.appendChild(b)
+		document.write(m1);
+		document.writeln(m.trim())
+		var t = 2	
+		var obj = {}
+		obj.t = t
+		console.log(obj);
+	</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div>
+		<p>
+			能够被残障人士使用的网站才能称得上一个易用的（易访问的）网站。
+			残障人士指的是那些带有残疾或者身体不健康的用户。
+			<img src="me.jpg"  alt="this is a person" id="img"/>
+		</p>
+	</div>
+</body>
+<script>
+	let img = document.getElementById("img")
+	console.log(img);
+	let obj = {
+		a: 1,
+		b: {
+			c: 2,
+			d: 3,
+		},
+	}
+	obj.c = obj.b
+	obj.e = obj.a
+	obj.b.c = obj.c
+	obj.b.d = obj.b
+	obj.b.e = obj.b.c
+	let newObj = JSON.parse(JSON.stringify(obj))
+	console.log(newObj)
+
+	
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#parent{
+		width: 200px;
+		height: 200px;
+		background: red;
+	}
+</style>
+</head>
+<body>
+	<div id="parent">
+		<button id="add">
+			点击触发冒泡事件
+		</button>
+		<button id="app">
+			点击触发捕获事件
+		</button>
+	</div>
+	<script>
+		/*
+			事件触发有三个阶段:
+			1.window 往事件触发处传播，遇到注册的捕获事件会触发
+			2.传播到事件触发处时触发注册的事件
+			3.从事件触发处往 window 传播，遇到注册的冒泡事件会触发
+			事件触发一般来说会按照上面的顺序进行，但是也有特例，如果给一个目标节点同时注册冒泡和捕获事件，事件触发会按照注册的顺序执行。
+			*/
+			let docx = document.getElementById('add')
+			let docs = document.getElementById('app')
+			docx.addEventListener('click', function(event){
+				console.log('捕获事件');
+			}, {
+				useCapture:false
+			})
+			docs.addEventListener('click', function  (event) {
+				event.stopImmediatePropagation();
+				console.log('冒泡事件'); 
+			}, false)
+
+			docs.addEventListener('click', function(event){
+				//event.stopImmediatePropagation();
+				console.log('捕获');
+			}, true);
+
+			let parent = document.getElementById('parent')
+			parent.addEventListener('click', function(event){
+				console.log('parent事件被执行');
+			}, {
+				capture:true,
+				once:true,
+				passive:false
+			})
+
+		</script>
+	</body>
+	</html>

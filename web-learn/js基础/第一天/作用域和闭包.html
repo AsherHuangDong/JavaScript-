@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="box">
+		<p>1</p>
+		<p>2</p>
+		<p>3</p>
+		<p>4</p>
+	</div>
+	<script>
+		/*
+		  没有块级作用域只有全局和函数作用域
+		  */
+
+
+		//作用域链
+
+
+		var a = 100
+		function fn() {
+			var b = 200;
+			//当前作用域没有定义的变量，即'自由变量'
+			console.log(a);
+			console.log(b);
+		}
+
+		fn();
+
+
+		var a = 300
+		function F1() {
+			var b = 400;
+			function F2() {
+				var c = 500;
+				console.log(a);//自由变量
+				console.log(b);//自由变量
+				console.log(c);
+			}
+			F2();
+		}
+		F1();
+
+		/*
+		  注意:函数的父级作用域是函数定义时候的作用域，不是函数执行时候的作用域，也就是说那个作用域定义了这个函数，这个函数的父级作用域就是谁，跟函数执行没有关系，函数自由变量要到父级作用域中找，就形成了作用域链。
+		  */
+
+		//闭包
+
+		//实际开发中闭包的应用：封装变量，收敛权限
+
+		function F3() {
+			var a = 100
+			return function () {
+				console.log(a);
+			}
+		}
+
+		var f3 = F3();
+		var a = 200;
+		f3();
+
+		//闭包使用场景
+        //函数作为返回值
+        //函数作为参数传递(函数自由变量要到父级作用域中找)
+
+        //函数声明
+        function F2 () {
+        	console.log('函数声明')
+        }
+        F2();
+        //函数表达式
+        var F3  = function () {
+        	console.log('函数表达式');
+        }();
+        //匿名函数
+        (function () {
+        	console.log('匿名函数');
+        })()
+        
+
+        var aP = document.querySelectorAll("p")
+        //方法一：使用闭包
+        for (var i = aP.length - 1; i >= 0; i--) {
+        	(function  (j) {
+        		aP[i].onclick = function(){
+        			console.log(j+1)
+        		}
+        	})(i)
+        }
+        //方法二：将var改为let
+        for(let i=aP.length-1;i>=0;i--){
+        	aP[i].onclick = function(){
+        		console.log(i);
+        	}
+        }
+        //for 循环声明在 <script>标签里时，作用域是全局作用域,使用var关键字同样会变量提升,使用let关键字或const关键字定义的变量智能在for循环中调用,let和const
+        //例：
+        //console.log(index);
+        console.log(result);
+        //console.log(temp);
+        for(let index=0;index<10;index++){
+        	var result = 1;
+        	let temp = 2;
+        }
+        //console.log(index);
+        console.log(result);
+        //console.log(temp);
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+  /*
+   canvas清空画布的方法:
+   1.clearRect();
+      该方法接受四个参数，分别是矩形起点的 x, y 坐标，
+      以及该矩形的宽高。可以将该矩形范围内的内容清空，即将其中的每一个像素置为透明。
+    因此，我们可以有如下清空画布的方法：
+    context.clearRect(0, 0, canvas.width, canvas.height);
+   2.重置canvas宽高清空画布
+    canvas.width = canvas.width
+    canvas.height = canvas.height
+    缺点:
+     不够直观： 阅读代码会较难以确定代码的意图；
+     有副作用： 重设画布的宽高，除了会清空画布，还带有重置画布的渲染上下文的副作用，
+              即原先对渲染上下文所做的各种变换（平移、缩放、旋转等）将会丢失。容易在没注意的情况下引入 bug。
+  */
+</script>
+</html>

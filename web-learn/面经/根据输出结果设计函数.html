@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script>
+		/*
+		编写代码，满足以下条件： （1）Hero("37er");执行结果为 Hi! This is 37er （2）Hero("37er").kill(1).recover(30);执行结果为 Hi! This is 37er Kill 1 bug Recover 30 bloods （3）Hero("37er").sleep(10).kill(2)执行结果为 Hi! This is 37er //等待10s后 Kill 2 bugs  //注意为bugs （双斜线后的为提示信息，不需要打印）
+		*/
+		function Hero (name) {
+			this.name = name;
+			this.time = 0;
+			console.log('Hi! This is '+ this.name);
+			this.Kill = function(bugs){
+				if(bugs == 1){ 
+					console.log('Kill ' + bugs + ' bug')
+				}else{
+					setTimeout(function(){
+						console.log('Kill ' + bugs + ' bugs')
+					},100*this.time)
+				}
+				return this;
+			}
+
+			this.recover = function(num){
+				console.log('Revover ' + num +' bloods')
+				return this;
+			}
+
+			this.sleep = function(sleepTime){
+				this.time = sleepTime;
+				return this;
+			}
+
+			return this;
+		}
+
+
+		Hero('37er');
+		Hero('47er').Kill(1).recover(30);
+		Hero('57er').sleep(10).Kill(3);
+	</script>
+</body>
+</html>

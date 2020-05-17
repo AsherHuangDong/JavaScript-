@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#box{
+		width:100%;
+		height: 400px;
+		display: flex;
+	}
+	#left,#right{
+		width: 400px;
+		height: 400px;
+		background: blue;
+	}
+
+	#center{
+		flex: 1;
+		height: 400px;
+		background: red;
+	}
+</style>
+<body>
+	<div id="box">
+		<div id="left">left</div>
+		<div id="center">center</div>
+		<div id="right">right</div>
+	</div>
+</body>
+</html>

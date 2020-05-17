@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Document</title>
+</head>
+
+<body>
+     <input type="text" id="inp">
+     <p id="result"></p>
+</body>
+<script>
+     /**
+     * 1.键盘事件兼容性写法
+     */
+
+     var inp = document.getElementById("inp")
+     var result = document.getElementById("result")
+
+     // 按下键盘码
+     function getKeyCode(e) {
+          e = e ? e : (window.event ? window.event : "")
+          return e.keyCode ? e.keyCode : e.which
+     }
+     inp.onkeypress = function (e) {
+          result.innerHTML = getKeyCode(e)
+     }
+</script>
+
+</html>

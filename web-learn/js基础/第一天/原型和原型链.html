@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id='div1'></div>
+	<script>
+		//arr的构造函数是：Array()
+		var arr = [];
+		//obj的构造函数是：Object()
+		var obj = {};
+		//Foo的构造函数是：Function()
+		function Foo(name,age) {
+			// body...
+			this.name = name;
+			this.age = age;
+		}
+		var f = new Foo('liuxin',22)
+
+        console.log(arr.__proto__);
+        console.log(obj.__proto__);
+        console.log(Foo.__proto__);
+
+        console.log(Foo.prototype);
+        console.log(obj.__proto__ === Object.prototype);
+
+		console.log(f);
+		console.log(f.__proto__)
+		console.log(f.constructor);
+		console.log(Foo.constructor)
+		Foo.prototype.get = function(){
+			return 'name';
+		};
+		console.log(f.get());
+		function animal(){
+			this.eat = function(){
+				console.log('animal eat');
+			}
+		}
+		function Dog(){
+			this.bark = function(){
+				console.log('dog bark');
+			}
+		}
+		Dog.prototype.eat = new animal();
+		var dog = new Dog();
+		console.log(dog.eat);
+
+
+		function Element(id){
+			this.element = document.getElementById(id)
+		}
+
+		Element.prototype.html = function(val){
+			var element = this.element;
+			if(val){
+				element.innerHTML = val;
+				return this;
+			}else{
+				return element.innerHTML;
+			}
+		};
+
+		Element.prototype.on = function(type,fn){
+			var element = this.element;
+			element.addEventListener(type,fn);
+			return this;
+		}
+
+		var element = new Element('div1');
+		element.html('<p>hello world</p>').on("click",function() {
+			alert('javascript')}).html('<input type="button" value="javascript"/>')
+
+
+
+         function Person(name) {
+         	this.name = name; 
+         }
+         Person.prototype.alertName = function () {
+         	alert(this.name)
+         }
+         var person = new Person('zhangsan')
+         person.printName = function(){
+         	console.log(this.name);
+         }
+         person.printName();
+         person.alertName();
+         var item;
+         for(item in person){
+         	if(person.hasOwnProperty(item)){
+         		console.log(item);
+         	}
+         }
+         console.log(Object.prototype.__proto__);
+
+         console.log(person instanceof Person);
+         console.log(person instanceof Object);
+      </script>
+  </body>
+  </html>

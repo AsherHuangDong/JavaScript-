@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+
+	.parent{
+
+		border: 5px solid red;
+		width: 300px;
+		/*
+		 计算BFC的高度时，浮动元素也参与计算,给父节点激活BFC
+		*/
+		overflow: hidden;
+
+	}
+	.child{
+
+		border: 5px solid blue;
+		width: 100px;
+		height: 100px;
+		float: left;
+	}
+</style>
+<body>
+	<h1>当我们不给父节点设置高度，子节点设置浮动的时候，会发生高度塌陷，这个时候我们就要清楚浮动。</h1>
+
+	<div class="parent">
+		<div class="child"></div>
+		<div class="child"></div>
+	</div>
+</body>
+</html>

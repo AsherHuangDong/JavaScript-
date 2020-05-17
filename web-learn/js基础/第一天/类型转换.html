@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+
+	<script>
+		console.log([1] == [1]);
+		console.log([1] === [1]);
+		console.log(null == undefined);
+		//转boolean
+		//判断条件时除了 undefined，null，false，0，-0，NaN，''为flase外，其他的都true;
+		//例：
+		let a = [];
+		if(a){
+			console.log('1');
+		}else {
+			console.log('2');
+		}
+		let b = null;
+		if(b){
+			console.log('3');
+		}else {
+			console.log('4');
+		}
+
+		//对象转基本类型
+		let c = {
+			valueOf(){
+				return 0;
+			}
+		}
+		console.log(1+c);
+		let d = {
+			valueOf(){
+				return 1;
+			},
+			toString(){
+				return -1;
+			},
+			[Symbol.toPrimitive](){
+				return 2;
+			}
+		}
+		console.log(1+d);
+		console.log('1'+d);
+
+		//四则运算符
+
+		//只有当算加法时，其中一方是字符串类型，就会把另一个也转化为字符串类型。其他运算只要其中一方是数字，那么另一方也会转化为数字。并且加法运算会触发三种类型转换：将值转化为原始值，转化为数字，转化为字符串。
+
+		//例：
+		console.log(1 + '1');
+		console.log(2 * '2');
+		console.log([1,2] + [2,1]);//1,22,1
+		//计算过程
+		//[1,2].toString()+[2,1].toString();
+		console.log(typeof([1,2]));
+		console.log(typeof([2,1]));
+		console.log('a'+ +'b');//aNaN
+		//计算过程
+		//+'b' -> NaN
+		console.log(+'1');
+		console.log(Number('b'));
+
+		//操作符
+
+		console.log([] == ![]);
+		//！可将变量转换成boolean类型，null、undefined、NaN,''取反都为true，其余都为false。
+		//计算过程[] == ! []   ->   [] == false  ->  [] == 0  ->   '' == 0   ->  0 == 0   ->  true
+		console.log([] == false);
+		console.log((![]) == false)
+		console.log({} == !{});
+		//计算过程[] == ! {}   ->   {} == false  ->  {} == 0  ->   NaN == 0   ->  false
+		console.log([]+[]);
+		console.log([] + {});
+		console.log({} + []);
+		//比较运算符
+		//相等和不相等——先转换再比较      （==）
+		//全等和不全等——仅比较而不转换  （===）
+		console.log(1-'result');//NaN
+		console.log((1-'result') == (1-'result'));//NaN == NaN -> false
+	</script>
+</body>
+</html>
