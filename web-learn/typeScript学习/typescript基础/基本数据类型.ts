@@ -108,14 +108,14 @@ let n: null = null;
  *  4.推断的返回值类型为never
 */
 // 例：函数返回never的函数必须存在无法达到的终点
-// function error(message: string): never {
-//     throw new Error(message);
-// }
-// error('This is never function');
+function error(message: string): never {
+    throw new Error(message);
+}
+error('This is never function');
 // 推断的返回值类型为never
-// function fail(){
-//     return error('Something failed');
-// }
+function fail(){
+    return error('Something failed');
+}
 // 函数返回never的函数必须存在无法达到的终点
 function infiniteLoop(): never{
     while(true){};

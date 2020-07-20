@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>2.顶点颜色数据插值计算</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="../node_modules/three/build/three.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0
+  }
+</style>
+
+<body>
+  <script>
+    /* 
+      自定义几何体
+    */
+    let scene = new THREE.Scene()
+
+    // 创建一个buffer类型的几个题对象
+    let geometry = new THREE.BufferGeometry()
+
+    /*
+      创建辅助三维坐标系
+    */
+
+    let axisHelper = new THREE.AxisHelper(500)
+    scene.add(axisHelper)
+
+    // 类型数组创建顶点数据
+    let vertices = new Float32Array([
+      0, 0, 0, //顶点1坐标
+      50, 0, 0, //顶点2坐标
+      0, 100, 0, //顶点3坐标
+
+      0, 0, 10, //顶点4坐标
+      0, 0, 100, //顶点5坐标
+      50, 0, 10 //顶点6坐标
+    ])
+    // 创建属性缓冲区对象
+    // 3个为一组，表示一个顶点的xyz坐标
+    let attribute = new THREE.BufferAttribute(vertices, 3)
+
+    // 设置几何体 attribute 属性的位置属性
+    geometry.attributes.position = attribute
+
+    // 类数组创建顶点颜色数据
+    let colors = new Float32Array([
+      1, 0, 0, // 顶点1的颜色
+      0, 1, 0, // 顶点2的颜色
+      0, 0, 1, // 顶点3的颜色
+      1, 1, 0, // 顶点4的颜色
+      0, 1, 1, // 顶点5的颜色
+      1, 0, 1 // 顶点6的颜色
+    ])
+
+    // 设置几何体attributes属性的颜色color属性
+    // 3个为一组,表示一个顶点的颜色数据RGB
+    geometry.attributes.color = new THREE.BufferAttribute(colors, 3)
+
+    // 三角面(网络)渲染模式
+    // let material = new THREE.MeshBasicMaterial({
+    //   color: 0x0000ff,
+    //   side: THREE.DoubleSide // 两面可见
+    // })
+
+    // 点渲染模式 point
+    let material = new THREE.PointsMaterial({
+      // 使用顶点颜色数据渲染模型，不需要再定义color属性
+      // color: 0xff0000,
+      vertexColors: THREE.VertexColors, // 已顶点颜色为准 vertexColors默认值为(THREE.NoColors)
+      size: 10.0 // 点对象像素尺寸
+    })
+    let points = new THREE.Points(geometry, material)
+    scene.add(points)
+
+    // 线模型 line
+    // let material = new THREE.LineBasicMaterial({
+    //   // color: 0xff0000 //线条颜色
+    //   vertexColors: THREE.vertexColors,
+    //   size: 10.0
+    // }); //材质对象
+    // let line = new THREE.Line(geometry, material); //线条模型对象
+    // scene.add(line); //线条对象添加到场景中
+
+    // // 创建网络模型对象 Mesh
+    // let mesh = new THREE.Mesh(geometry, material)
+
+    // scene.add(mesh)
+    /*
+      相机设置
+    */
+    let width = window.innerWidth
+    let height = window.innerHeight
+    let k = width / height
+    let s = 200
+    // 创建正射投影相机对象
+    let camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 2, 1000)
+    // 设置相机位置
+    camera.position.set(250, 300, 300)
+    // 设置相机方向
+    camera.lookAt(scene.position)
+
+    /*
+      创建渲染器对象
+    */
+
+    let renderer = new THREE.WebGLRenderer()
+    // 设置渲染区域尺寸
+    renderer.setSize(width, height)
+    // body元素中插入canvas对象
+    document.body.appendChild(renderer.domElement)
+    // 执行渲染操作 指定场景，相机作为参数
+    renderer.render(scene, camera)
+  </script>
+</body>
+
+</html>

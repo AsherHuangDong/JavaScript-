@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>旋转动画</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+  <script src="../node_modules/three/build/three.js"></script>
+  <script src="../node_modules/three/examples/js/controls/OrbitControls.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0
+  }
+</style>
+
+<body>
+  <script>
+    /* 
+      创建场景
+    */
+    let scene = new THREE.Scene()
+    // 创建立方体网络模型
+    let geometry = new THREE.BoxGeometry(200, 200, 200)
+    // 创建材质对象
+    let material = new THREE.MeshLambertMaterial({
+      color: 0x00ffff
+    })
+    // 创建网络对象模型
+    let mesh = new THREE.Mesh(geometry, material)
+    // 将网络对象模型添加到场景中
+    scene.add(mesh)
+    /*
+      光源设置
+    */
+    // 点光源
+    let point = new THREE.PointLight(0xfffff)
+    // 设置点光源位置
+    point.position.set(400, 300, 200)
+    // 将点光源添加到场景中
+    scene.add(point)
+
+    // 环境光源
+    let ambient = new THREE.AmbientLight(0x333333)
+    // 将环境光源添加到场景中
+    scene.add(ambient)
+
+    /*
+      相机设置
+    */
+    let width = window.innerWidth
+    let height = window.innerHeight
+    let k = width / height
+    let s = 200
+    // 创建正射投影相机对象
+    let camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 2, 1000)
+    // 设置相机位置
+    camera.position.set(250, 300, 300)
+    // 设置相机方向
+    camera.lookAt(scene.position)
+
+    /*
+      创建渲染器对象
+    */
+
+    let rederer = new THREE.WebGLRenderer()
+    // 设置渲染区域尺寸
+    rederer.setSize(width, height)
+    // body元素中插入canvas对象
+    document.body.appendChild(rederer.domElement)
+    // 执行渲染操作 指定场景，相机作为参数
+    // rederer.render(scene, camera)
+
+    function render() {
+      rederer.render(scene, camera)
+      mesh.rotateX(0.01)
+      requestAnimationFrame(render)
+    }
+    // 渲染函数
+    // 设置调用render函数的周期为200ms，刷新频率相当于5你能明显的感受到卡顿
+    // setInterval("render()", 200)
+
+    /* 使用 requestAnimationFrame：浏览器渲染之前执行的操作， 浏览器默认频率是 60FPS, 大约每 16.7ms调用一次 requestAnimationFrame
+    代替 setInterval 解决卡顿现象 
+    */
+    // render()
+
+    // 匀速旋转
+
+    /*
+      在实际执行程序的时候，可能requestAnimationFrame(render)请求的函数并不一定能按照理想的60FPS频率执行，
+      两次执行渲染函数的时间间隔也不一定相同，如果执行旋转命令的rotateY的时间间隔不同，旋转运动就不均匀，
+      为了解决这个问题需要记录两次执行绘制函数的时间间隔。
+    */
+    let T0 = new Date() // 上次执行的时间
+    function renderUniformSpeed() {
+      let T1 = new Date() // 本次执行的时间
+      let t = T1 - T0 // 时间差
+      T0 = T1 // 将本次执行的之间赋值给上次时间
+      requestAnimationFrame(render)
+      rederer.render(scene, camera) // 执行渲染操作
+      mesh.rotateX(0.001 * t) // 旋转角度0.001弧度每毫秒
+    }
+    renderUniformSpeed()
+  </script>
+</body>
+
+</html>

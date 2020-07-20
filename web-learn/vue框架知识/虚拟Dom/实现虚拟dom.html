@@ -143,29 +143,29 @@
     */
 
     //映射成真实DOM 
-    function dfsWalk(node, walker, patches) {
+    function dfsWalk(node, walker, patches){
         const currentPatches = patches[walker.index];
 
         const len = node.childNodes ? node.childNodes.length : 0;
 
-        for (let i = 0; i < len; i++) {
+        for(let i=0;i<len ;i++){
             walker.index++;
             dfsWalk(node.childNodes[i], walker, patches);
         }
 
-        if (currentPatches) {
+        if(currentPatches){
             applyPatches(node, currentPatches);
         }
     }
 
     //更新 dom
-    function applyPatches(node, currentPatches) {
+    function applyPatches(node, currentPatches){
         currentPatches.forEach(currentPatch => {
-            switch (currentPatch) {
+            switch(currentPatch){
                 case REPLACE: {
-                    const newNode = (typeof currentPatch.node === 'string')
-                        ? document.createTextNode(currentPatch.node)
-                        : currentPatch.node.render();
+                    const newNode = (typeof currentPatch.node === 'string') 
+                         ? document.createTextNode(currentPatch.node) 
+                         : currentPatch.node.render();
                     node.parentNode.replaceChild(newNode, node);
                     break;
                 }
@@ -178,9 +178,9 @@
                     break;
                 }
                 case TEXT: {
-                    if (node.textContent) {
+                    if(node.textContent){
                         node.textContent = currentPatch.content;
-                    } else {
+                    }else{
                         node.nodeValue = currentPatch.content;
                     }
                 }

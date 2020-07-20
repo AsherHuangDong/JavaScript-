@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>场景中插入新的几何体</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+  <script src="../node_modules/three/build/three.js"></script>
+  <script src="../node_modules/three/examples/js/controls/OrbitControls.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0
+  }
+</style>
+
+<body>
+  <script>
+    /* 
+      创建场景
+    */
+    let scene = new THREE.Scene()
+    // 创建立方体网络模型
+    let geometry = new THREE.BoxGeometry(200, 200, 200)
+    // 创建材质对象
+    let material = new THREE.MeshLambertMaterial({
+      color: 0x00ffff
+    })
+    // 创建网络对象模型
+    let mesh = new THREE.Mesh(geometry, material)
+    // 将网络对象模型添加到场景中
+    scene.add(mesh)
+
+    // 绘制圆柱体
+    let geometry1 = new THREE.CylinderGeometry(50, 50, 100, 25)
+    let material1 = new THREE.MeshLambertMaterial({
+      color: 'green'
+    })
+    let mesh1 = new THREE.Mesh(geometry1, material1)
+    // 设置球体位置,默认为 (0, 0, 0)
+    mesh1.position.set(300, 0, 0)
+    scene.add(mesh1)
+
+    /*
+      创建辅助三维坐标系
+    */
+
+    let axisHelper = new THREE.AxisHelper(500)
+    scene.add(axisHelper)
+    /*
+      光源设置
+    */
+    // 点光源
+    let point = new THREE.PointLight(0xfffff)
+    // 设置点光源位置
+    point.position.set(400, 300, 200)
+    // 将点光源添加到场景中
+    scene.add(point)
+
+    // 环境光源
+    let ambient = new THREE.AmbientLight(0x333333)
+    // 将环境光源添加到场景中
+    scene.add(ambient)
+
+    /*
+      相机设置
+    */
+    let width = window.innerWidth
+    let height = window.innerHeight
+    let k = width / height
+    let s = 200
+    // 创建正射投影相机对象
+    let camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 2, 1000)
+    // 设置相机位置
+    camera.position.set(250, 300, 300)
+    // 设置相机方向
+    camera.lookAt(scene.position)
+
+    /*
+      创建渲染器对象
+    */
+
+    let renderer = new THREE.WebGLRenderer()
+    // 设置渲染区域尺寸
+    renderer.setSize(width, height)
+    // body元素中插入canvas对象
+    document.body.appendChild(renderer.domElement)
+    // 执行渲染操作 指定场景，相机作为参数
+    // rederer.render(scene, camera)
+
+    function render() {
+      renderer.render(scene, camera)
+      mesh1.rotateX(0.01)
+      requestAnimationFrame(render)
+    }
+
+    render()
+    /*
+      创建控件对象
+      使用场景: 
+        1. 缩放：滚动-鼠标中键
+        2. 旋转：拖动-鼠标左键
+        3. 平移：拖动-鼠标右键
+    */
+    let controls = new THREE.OrbitControls(camera, renderer.domElement)
+    // 监听鼠标，键盘事件
+    // controls.addEventListener('change', render)
+
+    /*
+      requestAnimationFrame() 使用情况:
+        如果threejs代码中通过requestAnimationFrame()实现渲染器渲染方法render()的周期性调用，
+        当通过OrbitControls操作改变相机状态的时候，没必要在通过controls.addEventListener('change', render)监听鼠标事件调用渲染函数，
+        因为requestAnimationFrame()就会不停的调用渲染函数。
+
+      注意: 开发中不要同时使用requestAnimationFrame()或controls.addEventListener('change', render)调用同一个函数，这样会冲突。
+    */
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>5.设置Geometry顶点位置，顶点颜色数据</title>
+  <script src="../node_modules/three/build/three.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+</style>
+
+<body>
+  <script>
+    /*
+      通过API Geometry 设置几何体
+      BufferGeometry 和 Geometry的区别:
+        Threejs渲染的时候会先把 Geometry 转化为 BufferGeometry 再解析几何体顶点数据
+    */
+
+    // Vector3 定义顶点为主数据坐标
+    let geometry = new THREE.Geometry()
+    let p1 = new THREE.Vector3(50, 0, 0) // 顶点1坐标
+    let p2 = new THREE.Vector3(0, 70, 0) // 顶点2坐标
+    let p3 = new THREE.Vector3(80, 70, 0) // 顶点3坐标
+
+    // 顶点坐标添加到geometry对象
+    geometry.verties.push(p1, p2, p3)
+  </script>
+</body>
+
+</html>

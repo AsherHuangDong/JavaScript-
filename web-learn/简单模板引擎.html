@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script>
+		const year = '2017'; 
+		const month = '09'; 
+		const day = '21'; 
+
+		function render(str){
+			return function(obj){
+				str = str.replace('year',obj.year)
+				str = str.replace('{month}',obj.month)
+				str = str.replace('${day}',obj.day)
+				return str;
+			}
+		}
+		const str = render('year−{month}-${day}')({year,month,day}); 
+		console.log(str)//输出2017-09-21
+
+		console.log(+new Date());
+		console.log(Array.prototype);
+</script>
+</body>
+</html>

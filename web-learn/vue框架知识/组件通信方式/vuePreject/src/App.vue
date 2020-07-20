@@ -23,7 +23,7 @@ export default {
   //  }
   // },
   // 方法二:使用2.6最新API Vue.observable 优化响应式 provide
-  provide() {
+  provide () {
     this.theme = Vue.observable({
       name: "jam"
     });
@@ -31,7 +31,7 @@ export default {
       theme: this.theme
     };
   },
-  data() {
+  data () {
     return {
       //name: 'jam',
       users: ["Henry", "Bucky", "Emily"],
@@ -44,15 +44,15 @@ export default {
     index
   },
   methods: {
-    updateTitle(e) {
+    updateTitle (e) {
       this.title = e;
     },
-    changeName() {
+    changeName () {
       //this.name = 'food'
       this.theme.name = "hello";
     }
   },
-  mounted() {
+  mounted () {
     console.log(this.$refs);
     const comA = this.$refs.comA;
     console.log(comA);
