@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+
+<style>
+	
+	*{
+		margin: 0;
+		padding: 0;
+	}
+
+	#parent{
+		width: 400px;
+		height: 400px;
+		position: relative;
+		background: blue;
+	}
+
+	#son{
+		width: 200px;
+		height: 200px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		background: red;
+		text-align: center;
+		line-height: 200px;
+	}
+
+	#parent1{
+		width: 400px;
+		height: 400px;
+		position: relative;
+		background: green;
+	}
+
+	#son1{
+		width: 200px;
+		height: 200px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin: -100px 0 0 -100px;
+		background: yellowgreen;
+		text-align: center;
+		line-height: 100px;
+	}
+
+	#parent2{
+		width: 400px;
+		height: 400px;
+		background: lavender;
+	}
+
+	#son2{
+		width: 250px;
+		height: 250px;
+		position: relative;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		background: navajowhite;
+		text-align: center;
+		line-height: 250px;
+	}
+
+	#parent3{
+		width: 400px;
+		height: 400px;
+		position: relative;
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+		background: aliceblue;
+	}
+
+	#son3{
+		width: 250px;
+		height: 250px;
+		background: aqua;
+		text-align: center;
+		line-height: 250px;
+	}
+</style>
+<body>
+	<!-- 绝对居中，原理是当top,bottom为0时，margin-top&bottom设置auto的话会无限延伸沾满空间并平分，当left，right为0时,margin-left&right设置auto会无限延伸占满空间并平分， -->
+	<div id="parent">
+		<div id="son">绝对居中</div>
+	</div>
+
+	<div id="parent1">
+		<div id="son1">定位 + margin-top + margin-left居中</div>
+	</div>
+
+	<div id="parent2">
+		<div id="son2">transform居中,存在兼容性问题</div>
+	</div>
+
+	<div id="parent3">
+		<div id="son3">display: table-cell 无兼容性问题</div>
+	</div>
+</body>
+</html>
