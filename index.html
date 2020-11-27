@@ -1,1 +1,33 @@
-yes
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function getJSON() {
+      var searchCondition = '机器人'
+      var pageNum = 1
+      var pageSize = 10
+      var request = new XMLHttpRequest();
+      request.open("GET", "http://www.100badou.com/robot/web/questionInfo/listSomeSearch?pageNum=" + pageNum +
+        "&pageSize=" + pageSize + "&searchCondition=" + searchCondition + "&type=" + 1, true)
+      request.send(null)
+      request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+          if (request.status === 200) {
+            console.log(request.response)
+          }
+        }
+      }
+    }
+    getJSON()
+  </script>
+</body>
+
+</html>

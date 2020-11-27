@@ -32,13 +32,15 @@ var rankTeams = function (votes) {
 var rankTeams1 = function (votes) {
 	if (votes.length === 0) return '';
 
-	let teams = votes[0].split(''), arr = [];
+	let teams = votes[0].split(''),
+		arr = [];
 	//获取排名记录
 	for (let i = 0; i < votes.length; i++) {
-		let vote = votes[i], rank = 1;
+		let vote = votes[i],
+			rank = 1;
 		for (let j = 0; j < vote.length; j++) {
 			if (arr[rank] === undefined) arr[rank] = {}
-			let team = vote.charAt(j);//获取位置j对应的元素
+			let team = vote.charAt(j); //获取位置j对应的元素
 			if (arr[rank][team] === undefined) {
 				arr[rank][team] = 1;
 			} else {
@@ -50,7 +52,8 @@ var rankTeams1 = function (votes) {
 	console.log(arr);
 	//排序
 	teams.sort((a, b) => {
-		let rank = 1, res = 0;
+		let rank = 1,
+			res = 0;
 		while (res === 0) {
 			if (arr[rank] === undefined) {
 				if (a < b) res = -1;
