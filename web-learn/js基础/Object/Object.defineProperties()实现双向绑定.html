@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="input1">
+  <input type="text" id="input2">
+  <span id="span"></span>
+  <script>
+    let input1 = document.querySelector('#input1')
+    let input2 = document.querySelector('#input2')
+    let span = document.querySelector('#span')
+
+    let obj = {}
+    Object.defineProperties(obj, {
+      val1: {
+        configurable: true,
+        get: function () {
+          input1.value = 0
+          input2.vallue = 0
+          span.innerHTML = 0
+          return 0
+        },
+        set: function (newVal) {
+          input2.value = newVal
+          span.innerHTML = Number(newVal) ? Number(newVal) : 0
+        }
+      },
+      val2: {
+        configurable: true,
+        get: function () {
+          input1.value = 0
+          input2.value = 0
+          span.innerHTML = 0
+          return 0
+        },
+        set: function (newVal) {
+          input1.value = newVal
+          span.innerHTML = Number(newVal) + 1
+        }
+      }
+    })
+    input1.value = obj.val1
+    input1.addEventListener('keyup', function (e) {
+      obj.val1 = e.target.value
+    }, false)
+    input2.addEventListener('keyup', function (e) {
+      obj.val2 = e.target.value
+    }, false)
+  </script>
+</body>
+
+</html>

@@ -1,21 +1,20 @@
 <template>
   <div>
-    <h1>this is App</h1>
-    <ul>
-      <li v-for="(item, index) in arr" :key="index">todo{{ item }}</li>
-    </ul>
+    <MainHeader></MainHeader>
   </div>
 </template>
 <script>
 
 import './assets/css/global.styl'
-
+import MainHeader from './components/MainHeader'
 export default {
   name: 'App',
   data () {
     return {
-      arr: [1, 2, 3]
     }
+  },
+  components: {
+    MainHeader
   }
 }
 

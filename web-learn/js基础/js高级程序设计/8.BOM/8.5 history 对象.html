@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>history 对象</title>
+</head>
+
+<body>
+  <h1>history 对象：保存用户上网的历史记录，从窗口被打开的时候算起。</h1>
+  <p>由于 history 对象是 window 对象的属性，因此每个浏览器窗口，每个标签页乃至每个框架，都有自有自己的 history 对象与特定的 window对象关联。</p>
+  <h2>属性和方法</h2>
+  <ul>
+    <li>length: 保存历史记录的数量。</li>
+    <li>history.go(num): 前进或后退num页</li>
+    <li>history.back(): 后退一页</li>
+    <li>history.forward(): 前进一页</li>
+  </ul>
+  <strong>当页面 URL 改变时，就会生成一条历史记录。hash 改变也会生成</strong>
+</body>
+
+</html>

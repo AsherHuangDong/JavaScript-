@@ -43,3 +43,31 @@ let obj = {
 }
 
 console.log(deepCopy(obj))
+
+// 方法二
+function copyObject(orig) {
+  var copy = Object.create(Object.getPrototypeOf(orig))
+  copyOwnPropertiesFrom(copy, orig)
+  return copy
+}
+
+function copyOwnPropertiesFrom(target, source) {
+  Object.getOwnPropertyNames(source).forEach(propKey => {
+    var desc = Object.getOwnPropertyDescriptor(source, propKey)
+    Object.defineProperty(target, propKey, desc)
+  })
+  return target
+}
+console.log(copyObject(obj))
+
+// 方法三
+function copyObject1(orig) {
+  return Object.create(Object.getPrototypeOf(orig), Object.getOwnPropertyDescriptors(orig))
+}
+console.log(copyObject1(obj))
+
+// 方法四
+function copyObject2(orig) {
+  return Object.defineProperties({}, Object.getOwnPropertyDescriptors(orig))
+}
+console.log(copyObject2(obj))

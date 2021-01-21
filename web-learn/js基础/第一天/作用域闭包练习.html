@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="">
 </head>
+
 <body>
 
 	<script>
-		
 		//变量提升
 
 		//this的几种不同的使用场景
@@ -17,11 +18,11 @@
 
 		//创建10个<a>标签，点击的时候弹出来对应的序号
 
-		for(let i=0;i<10;i++){
-			(function(i) {
+		for (let i = 0; i < 10; i++) {
+			(function (i) {
 				var a = document.createElement('a');
-				a.innerHTML = i+'<br>'
-				a.addEventListener("click",function(e){
+				a.innerHTML = i + '<br>'
+				a.addEventListener("click", function (e) {
 					alert(i);
 				})
 				document.body.appendChild(a);
@@ -40,9 +41,9 @@
 		//2.函数作为参数来传递
 
 		//例1:
-		function F1(){
+		function F1() {
 			var a = 100;
-			return function(){
+			return function () {
 				console.log(a);
 			}
 		}
@@ -52,7 +53,7 @@
 		f1();
 
 		//例2：
-		function F2(fn){
+		function F2(fn) {
 			var a = 200;
 			fn();
 		}
@@ -61,12 +62,12 @@
 
 
 
-		function isFirstLoad(){
+		function isFirstLoad() {
 			var _list = []
-			return function(id){
-				if(_list.indexOf(id)>=0){
+			return function (id) {
+				if (_list.indexOf(id) >= 0) {
 					return false;
-				}else {
+				} else {
 					_list.push(id)
 					return true;
 				}
@@ -79,7 +80,8 @@
 		firstLoad(30);
 		console.log(firstLoad(3));
 		console.log(firstLoad(10));
-		function look(name){
+
+		function look(name) {
 			this.name = name;
 			console.log(this.name);
 		}
@@ -91,36 +93,38 @@
 
 		//经典面试题
 
-		for(var i=0;i<5;i++){
-			setTimeout(function(){
+		for (var i = 0; i < 5; i++) {
+			setTimeout(function () {
 				console.log(i);
-			},400)
+			}, 400)
 		}
 
 		//方法一：使用闭包
 
-		for(var i=0;i<5;i++){
-			(function(j){
-				setTimeout(function timer(){
+		for (var i = 0; i < 5; i++) {
+			(function (j) {
+				setTimeout(function timer() {
 					console.log(j);
-				},400)
+				}, 400)
 			})(i)
 		}
 		//方法二：将var改为let
 
-		for(let i=0;i<5;i++){
-			setTimeout(function timer(){
+		for (let i = 0; i < 5; i++) {
+			setTimeout(function timer() {
 				console.log(i)
-			},400)
+			}, 400)
 		}
 
 		//方法三：使用setTimeout的第三个参数
 
-		for(var i=0;i<5;i++){
-			setTimeout(function timer(j){
-				console.log(j)}, i*400, i)
+		for (var i = 0; i < 5; i++) {
+			setTimeout(function timer(j) {
+				console.log(j)
+			}, i * 400, i)
 		}
 	</script>
 
 </body>
+
 </html>

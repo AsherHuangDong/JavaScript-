@@ -1,5 +1,3 @@
-
-
 // delete只能删除对象中的属性，
 // 不能删除原型链中的属性，
 // 不能删除普通变量。
@@ -22,6 +20,7 @@
 // console.log(m.food);
 
 var a = 1
+
 function myFunc() {
 	this.a = 10
 	setTimeout(() => {
@@ -46,41 +45,47 @@ function myFunc() {
 // var obj1 = {item: "unchanged"};
 // var obj2 = {item: "unchanged"};
 // changeStuff(num, obj1, obj2);
- 
+
 // console.log(num);
 // console.log(obj1.item);    
 // console.log(obj2.item);
 
 var name = "Mary"
-function hello () {
-  console.log("Hello！" + name);
+
+function hello() {
+	console.log("Hello！" + name);
 }
-function sayHello () {
-  var name = "Bob";
-  hello();
+
+function sayHello() {
+	var name = "Bob";
+	hello();
 }
-function sayHello1 () {
-  var name = "Mark";
-  function hello () {
-    console.log("Hello！" + name);
-  }
-  hello ();
+
+function sayHello1() {
+	var name = "Mark";
+
+	function hello() {
+		console.log("Hello！" + name);
+	}
+	hello();
 }
 hello();
 sayHello();
 sayHello1();
 
-function fun(n, o)  {
+function fun(n, o) {
 	console.log(o)
 	return {
-	  fun: function(m) {
-		return fun(m, n);
-	  }
+		fun: function (m) {
+			return fun(m, n);
+		}
 	};
-  }
-var a = fun(0);  a.fun(1);  a.fun(2);  a.fun(3);  
+}
+var a = fun(0);
+a.fun(1);
+a.fun(2);
+a.fun(3);
 var b = fun(0).fun(1).fun(2).fun(3);
-var c = fun(0).fun(1);  c.fun(2);  c.fun(3); 
-
-
-
+var c = fun(0).fun(1);
+c.fun(2);
+c.fun(3);

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div>
+    <a href id="open" onclick="turnto(event)">打开</a>
+  </div>
+  <script>
+    /**
+     * * window 对象: 再浏览器中扮演双重角色，既是 JavaScript 访问浏览器窗口的一个接口，也是 ECMAScript 规定的 Global 对象。
+     *     这意味着在网页中定义的任何一个对象，变量和函数，都以 window 作为其 Global 对象，因此有权访问 parseInt() 等方法。
+     */
+
+    /**
+     * 1. 全局作用域
+     *      由于 window 对象扮演者 Global 对象的角色，因此所有在全局作用域中声明的变量，函数都会变成 window 对象的属性和方法。
+     */
+
+    // 以 var 关键字定义的全局变量它的 configurable 的值为false，因此不可删除
+    var age = 29
+    window.color = 'red'
+
+    function sayAge() {
+      console.log(this.age)
+    }
+    console.log(window.age)
+    sayAge()
+    window.sayAge()
+
+    delete window.age
+    delete window.color
+    console.log(window.age, window.color)
+
+    function turnto(e) {
+      var wroxWin = window.open('http://www.baidu.com', '_blanck',
+        'height=400,width=400,top=10,left=10,resizable=yes,menubar=yes,status=yes,toolbar=yes')
+      // 调整大小
+      wroxWin.resizeTo(500, 500)
+      // 移动位置
+      wroxWin.moveTo(200, 200)
+      alert(wroxWin.opener === window)
+      setTimeout(() => {
+        wroxWin.close()
+        alert(wroxWin.closed)
+      }, 1000)
+    }
+
+    function SetInterval(fn, time) {
+      setTimeout(() => {
+        SetInterval()
+      }, time)
+    }
+    // SetInterval(() => {
+    //   console.log('ccc')
+    // }, 1000)
+    setInterval(() => {
+      console.log('bbb')
+    }, 1000)
+    // prompt('What is your name?', "MIchael")
+    // window.print()
+    window.find()
+  </script>
+</body>
+
+</html>

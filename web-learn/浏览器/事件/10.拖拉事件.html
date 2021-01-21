@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  div {
+    width: 100px;
+    height: 100px;
+  }
+
+  #changeColor {
+    background-color: green;
+  }
+
+  .dropzone {
+    background-color: orange;
+  }
+</style>
+
+<body>
+  <!-- <img
+    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608286747001&di=16ed4a4a603ba217c80cb1c3b9e868a4&imgtype=0&src=http%3A%2F%2Fa4.att.hudong.com%2F25%2F99%2F19300000421423134190997943822.jpg"
+    alt=""> -->
+  <!-- 修改被托拉元素颜色 -->
+  <!-- <div draggable="true" id="changeColor">被拖拉元素</div> -->
+
+  <!-- 将一个节点从当前父节点，拖拉到另一个父节点中 -->
+  <div class="dropzone">
+    <div id="draggable" draggable="true">该节点可拖拉</div>
+    <a href="https://www.baidu.com">百度</a>
+  </div>
+  <div class="dropzone"></div>
+  <div class="dropzone"></div>
+  <div class="dropzone"></div>
+  <script>
+    // let div = document.querySelector('#changeColor')
+    // div.addEventListener('dragstart', function (e) {
+    //   e.target.style.backgroundColor = 'red'
+    // }, false)
+    // div.addEventListener('dragend', function (e) {
+    //   e.target.style.backgroundColor = 'green'
+    // }, false)
+
+    let dragged = null
+    document.addEventListener('dragstart', function (e) {
+      // 保存被托拉节点
+      dragged = e.target
+      // 被托拉节点的背景色变透明
+      e.target.style.opacity = 0.5
+    }, false)
+
+    document.addEventListener('dragend', function (e) {
+      // 被托拉节点的背景色恢复正常
+      e.target.style.opacity = ''
+    }, false)
+
+    document.addEventListener('dragover', function (e) {
+      // 防止拖拉效果被重置，允许被托拉的节点放入目标节点
+      e.preventDefault()
+    }, false)
+
+    document.addEventListener('dragenter', function (e) {
+      // 目标节点的别景色变紫色
+      // 由于该事件会冒泡，所以要过滤节点
+      if (e.target.className === 'dropzone') {
+        e.target.style.background = 'purple'
+      }
+    }, false)
+
+    document.addEventListener('dragleave', function (e) {
+      // 目标节点的背景色回复原样
+      if (e.target.className === 'dropzone') {
+        e.target.style.background = ''
+      }
+    }, false)
+
+    document.addEventListener('drop', function (e) {
+      // 防止事件默认行为(比如某些元素节点上可以打开链接)
+      e.preventDefault()
+      if (e.target.className === 'dropzone') {
+        // 恢复目标节点背景色
+        e.target.style.background = ''
+        // 将被拖拉节点出入目标节点
+        dragged.parentNode.removeChild(dragged)
+        e.target.appendChild(dragged)
+      }
+    }, false)
+  </script>
+</body>
+
+</html>

@@ -13,9 +13,10 @@ function Cat(name) {
 }
 
 (function () {
-	var Super = function () { };
-	Super.prototype = Animal.prototype;
-	Cat.prototype = new Super();
+	var Super = function () {}
+	Super.prototype = Animal.prototype
+	Cat.prototype = new Super()
+	Cat.prototype.constructor = Cat
 })()
 
 var cat = new Cat('xiao')

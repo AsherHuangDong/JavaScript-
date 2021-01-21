@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <script>
+    function Multiply() {
+      let nums = [].slice.call(arguments)
+      let sum = nums.reduce((item, sum) => {
+        return sum * item
+      }, 1)
+
+      let multiply = function () {
+        let nums1 = [].slice.call(arguments)
+        sum *= nums1.reduce((item, sum) => {
+          return item * sum
+        }, 1)
+        return multiply
+      }
+
+      multiply.toString = function () {
+        return sum
+      }
+      return multiply
+    }
+    console.log(Multiply(1, 2)(2)(11, 2).toString())
+  </script>
+</body>
+
+</html>

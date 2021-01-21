@@ -1,0 +1,1 @@
+const promise1 = new Promise(resolve => setTimeout(resolve, 5000))

@@ -1,24 +1,24 @@
-function Hero (name) {
+function Hero(name) {
 	this.name = name;
 	this.time = 0;
-	console.log('Hi! This is '+ this.name);
-	this.Kill = function(bugs){
-		if(bugs == 1){ 
+	console.log('Hi! This is ' + this.name);
+	this.Kill = function (bugs) {
+		if (bugs == 1) {
 			console.log('Kill ' + bugs + ' bug')
-		}else{
-			setTimeout(function(){
+		} else {
+			setTimeout(function () {
 				console.log('Kill ' + bugs + ' bugs')
-			},1000*this.time)
+			}, 1000 * this.time)
 		}
 		return this;
 	}
 
-	this.recover = function(num){
-		console.log('Revover ' + num +' bloods')
+	this.recover = function (num) {
+		console.log('Revover ' + num + ' bloods')
 		return this;
 	}
 
-	this.sleep = function(sleepTime){
+	this.sleep = function (sleepTime) {
 		this.time = sleepTime;
 		return this;
 	}

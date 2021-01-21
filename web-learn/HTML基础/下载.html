@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <h1></h1>
+  <a href="" onclick="exportRaw('text.txt', { name: '11'})">下载</a>
+  <script>
+    // exportRaw('text.txt', '123123123')
+
+    function fakeClick(obj) {
+      var ev = document.createEvent("MouseEvents");
+      ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      obj.dispatchEvent(ev);
+    }
+
+    function exportRaw(name, data) {
+      var urlObject = window.URL || window.webkitURL || window;
+      var export_blob = new Blob([data]);
+      var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+      save_link.href = urlObject.createObjectURL(export_blob);
+      save_link.download = name;
+      fakeClick(save_link);
+    }
+  </script>
+</body>
+
+</html>

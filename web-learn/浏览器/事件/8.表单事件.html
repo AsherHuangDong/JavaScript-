@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <select name="" id="mySelect">
+    <option value="1" label="1"></option>
+    <option value="2" label="2"></option>
+    <option value="3" label="3"></option>
+  </select>
+
+  <input id="test" type="text" value="Select me!" />
+
+  <form>
+    <input type="text" required oninvalid="console.log('invalid input')" name="text" value="Select me!">
+    <input type="button" value="点击我" onclick="alertSelectionDirection()">
+    <button type="submit">提交</button>
+  </form>
+
+  <input type="text" id="myInput">
+  <script>
+    function inputHandler(e) {
+      console.log(e.target.value)
+    }
+
+    var mySelect = document.querySelector('#mySelect')
+    // input 事件
+    mySelect.addEventListener('input', inputHandler, false)
+
+    var elem = document.querySelector('#test')
+    elem.addEventListener('select', function (e) {
+      console.log(e.target.selectionDirection, e.target.selectionStart, e.target
+        .selectionEnd, e.target.value)
+    }, false)
+
+    function alertSelectionDirection() {
+      let control = document.forms[0]['text']
+      let direction = control.selectionDirection
+      alert(direction)
+    }
+
+    var input = document.getElementById('myInput')
+    input.addEventListener('input', myFunction, false)
+
+    function myFunction(e) {
+      console.log(e.data, e.inputType)
+    }
+  </script>
+</body>
+
+</html>

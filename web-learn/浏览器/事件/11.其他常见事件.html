@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>其他常见事件</title>
+</head>
+
+<body>
+  <script>
+    // 简单写法
+    // window.addEventListener('beforeunload', function (e) {
+    //   e.returnValue = '您确定要离开吗？'
+    // })
+    // 兼容性写法
+    // window.addEventListener('beforeunload', function (e) {
+    //   var confirmationMessage = '您确定要离开吗？'
+    //   e.returnValue = confirmationMessage
+    //   return confirmationMessage
+    // })
+
+    // scroll事件
+    (function () {
+      console.log('111')
+      var throttle = function (type, name, obj) {
+        var obj = obj || window;
+        var running = false;
+        var func = function () {
+          if (running) {
+            return;
+          }
+          running = true;
+          requestAnimationFrame(function () {
+            obj.dispatchEvent(new CustomEvent(name));
+            running = false;
+          });
+        };
+        obj.addEventListener(type, func);
+      };
+
+      // 将 scroll 事件转为 optimizedScroll 事件
+      throttle('scroll', 'optimizedScroll');
+    })();
+
+    window.addEventListener('optimizedScroll', function () {
+      console.log('Resource conscious scroll callback!');
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div>
+    <p>Hello</p>
+  </div>
+  <div id="para">Target <em>currentTarget</em></div>
+  <p class="det">detail</p>
+  <input type="text" id="my-input">
+
+  <script>
+    var input = document.getElementById('my-input')
+    input.addEventListener('keypress', checkName, false)
+
+    function checkName(e) {
+      if (e.charCode < 97 || e.charCode > 122) {
+        e.preventDefault()
+      }
+    }
+
+    var div = document.querySelector('div')
+    var p = document.querySelector('p')
+
+    function callback(event) {
+      var tag = event.currentTarget.tagName
+      console.log('Tag: ' + tag)
+      console.log(event.cancelable, event.cancelBubble, event.defaultPrevented)
+      console.log(event.composedPath())
+    }
+
+    div.addEventListener('click', callback, false)
+    var click = new Event('click')
+    p.dispatchEvent(click)
+
+    function hide(e) {
+      // 不管点击 Hello 或 World，总是返回 true
+      // e.currentTarget 指向事件传播过程中正在经过的那个节点
+      console.log(this === e.currentTarget)
+
+      // 点击 Hello 返回 true
+      // 点击 World 返回 false
+      // e.target 总是指向原始点击位置的那个节点，即 p
+      console.log(this === e.target)
+    }
+    document.getElementById('para').addEventListener('click', hide, false)
+
+    function giveDetailes(e) {
+      console.log(e.detail)
+    }
+    document.querySelector('.det').ondblclick = giveDetailes
+  </script>
+</body>
+
+</html>

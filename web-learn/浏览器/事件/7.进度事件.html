@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  .finished {
+    width: 500px;
+    height: 300px;
+  }
+</style>
+
+<body onload="loadEnd(event)">
+  <img
+    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608202042793&di=52dec4b23dd7f10414435d605de36384&imgtype=0&src=http%3A%2F%2Fdik.img.kttpdq.com%2Fpic%2F101%2F70319%2Fe9c38924bad0ac5d_1440x900.jpg"
+    onerror="this.style.display='none'" alt="">
+  <script>
+    const image = document.querySelector('img')
+    image.addEventListener('load', function (e) {
+      image.classList.add('finished')
+    })
+    image.addEventListener('error', function (e) {
+      image.style.display = 'none'
+    })
+    image.addEventListener('loadend', loadEnd, true)
+
+    // function alertComplete() {
+    //   alert('图片加载完成: ' + image.complete)
+    // }
+
+    function loadEnd(e) {
+      if (image.complete) {
+        console.log('图片加载完成')
+      } else {
+        console.log('图片加载失败')
+      }
+    }
+
+    let p = new ProgressEvent('load', {
+      lengthComputable: true,
+      loaded: 30,
+      total: 100
+    })
+    document.body.addEventListener('load', function (e) {
+      console.log('已经加载：' + (e.loaded / e.total) * 100 + '%')
+    })
+    document.body.dispatchEvent(p) // 已经加载 30%
+
+    var xhr = new XMLHttpRequest()
+
+    // 下载过程进度事件
+    xhr.addEventListener('progress', updateProgress, false)
+    xhr.addEventListener('load', transferComplete, false)
+    xhr.addEventListener('error', transferFailed, false)
+    xhr.addEventListener('abort', transferCanceled, false)
+
+    // 上传过程进度事件
+    xhr.upload.addEventListener('progress', updateProgress, false)
+    xhr.upload.addEventListener('load', transferComplete, false)
+    xhr.upload.addEventListener('error', transferFailed, false)
+    xhr.upload.addEventListener('abort', transferCanceled, false)
+
+    xhr.open('GET', 'https://image.baidu.com/search/index')
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
+    xhr.send()
+
+    function updateProgress(e) {
+      if (e.lengthComputable) {
+        var percetComplete = e.loaded / e.total
+      } else {
+        console.log('不能计算进度')
+      }
+    }
+
+    function transferComplete(e) {
+      console.log('传输结束')
+    }
+
+    function transferFailed(e) {
+      console.log('传输失败')
+    }
+
+    function transferCanceled(e) {
+      console.log('用户取消了传输')
+    }
+  </script>
+</body>
+
+</html>

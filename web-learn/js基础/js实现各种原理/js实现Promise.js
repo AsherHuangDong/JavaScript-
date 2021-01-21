@@ -12,7 +12,7 @@ function MyPromise(fn) {
   _this.currentState = PENDING
   _this.value = undefined
 
-  // 用于报春 then 中的回调，只有当 promise 状态为 pending 时才会缓存，并且没有实例最多缓存一次
+  // 用于保存 then 中的回调，只有当 promise 状态为 pending 时才会缓存，并且没有实例最多缓存一次
   _this.resolvedCallbacks = []
   _this.rejectedCallbacks = []
 

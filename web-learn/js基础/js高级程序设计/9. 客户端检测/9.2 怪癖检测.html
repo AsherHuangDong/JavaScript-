@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>怪癖检测</title>
+</head>
+
+<body>
+  <strong>怪癖检测: 识别浏览器的特殊行为。与能力检测相反，怪癖检测是想要知道浏览器存在什么 bug</strong>
+  <script>
+    // 例1: 检测某个实例属性与 [[Enumerable]] 为 false 的某个原型属性同名，那么该实例属性就不会出现在 for...in 循环中
+    var hasDontEnumQuick = function () {
+      var o = {
+        toString: function () {}
+      }
+      // console.log(Object.getOwnPropertyDescriptor(o, 'toString'))
+      for (var prop in o) {
+        if (prop === 'toString') return false
+      }
+      return true
+    }
+    console.log(hasDontEnumQuick())
+    // 例2: 检测被隐藏的属性
+    var hasEnumShadowsQuick = function () {
+      var o = {
+        toString: function () {}
+      }
+      var count = 0
+      for (var prop in o) {
+        if (prop === 'toString') count++
+      }
+      return count > 1
+    }
+    console.log(hasEnumShadowsQuick())
+  </script>
+</body>
+
+</html>

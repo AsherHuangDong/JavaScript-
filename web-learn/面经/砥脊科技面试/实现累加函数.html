@@ -10,24 +10,26 @@
 
 <body>
     <script>
-        function add(a) {
+        function add() {
             let arr = [].slice.call(arguments);
             let s = arr.reduce((item, sum) => {
-                return sum + item;
+                return sum + item
             }, 0)
-            function add1(b) {
+
+            function add1() {
                 let arr1 = [].slice.call(arguments);
                 s += arr1.reduce((item, sum) => {
-                    return sum + item;
+                    return sum + item
                 })
-                return add1;
+                return add1
             }
-            add1.toString = function () { return s };
-            return add1;
+            add1.toString = function () {
+                return s
+            }
+            return add1
         }
 
-
-        console.log(add(1, 2, 3)(2));
+        console.log(add(1)(2)(34).toString());
     </script>
 </body>
 

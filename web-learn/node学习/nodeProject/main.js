@@ -1,4 +1,3 @@
-
 const http = require('http');
 const fs = require('fs')
 
@@ -27,6 +26,7 @@ server.on('request', function (req, res) {
             }
         })
     }
+
 })
 
 server.listen(3002, function () {
