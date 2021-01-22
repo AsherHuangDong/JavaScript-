@@ -9,9 +9,219 @@
 </head>
 
 <body>
-  <h3>1. 识别呈现引擎</h3>
-  <p>五大呈现引擎: IE, Gecko, WebKit, KHTML 和 OPera</p>
-  <h3>2. 识别浏览器</h3>
+  <div>
+    <h1>使用方法: </h1>
+    <p>我们前面强调过了，用户代理检测是客户端检测的最后一个选择。只要可能，都应该优先采用能力检测和怪癖检测。</p>
+    <h2>用户代理检测一般适用于以下情形: </h2>
+    <ul>
+      <li>
+        不能直接准确地使用能力检测或怪癖检测。例如，某些浏览器实现了为将来功能预留的存根好书。在这种情况下，
+        仅测试相应的函数是否存在得不到足够的信息。
+      </li>
+      <li>
+        同一款浏览器在不同平台下具备不同的能力。这时候，可能就有必要确定浏览器位于哪个平台下。
+      </li>
+      <li>
+        为了跟踪分析等目的需要知道确切的浏览器。
+      </li>
+    </ul>
+    <h3>识别客户端</h3>
+    <pre>
+        <code>
+            // 为了不在全局中添加多余变量，将使用模块增强模式来封装检测脚本
+            // 代码结构如下:
+            // 识别客户端(引擎，浏览器，平台, Windows操作系统，移动设备, 游戏系统)
+            var client = function () {
+              // 引擎
+              var engine = {
+                // 呈现引擎:
+                ie: 0,
+                gecko: 0,
+                webkit: 0,
+                khtml: 0,
+                opera: 0,
+        
+                // 具体版本号
+                ver: null
+              }
+        
+              // 浏览器
+              var browser = {
+                // 浏览器
+                ie: 0,
+                firefox: 0,
+                chrome: 0,
+                opera: 0,
+                kong: 0,
+                safari: 0,
+        
+                // 浏览器版本
+                ver: null
+              }
+        
+              // 平台，设备和操作系统
+              var system = {
+                win: false, // 表示 Windows
+                mac: false, // 表示 Mac
+                x11: false, // 表示 Unix
+        
+                // 移动设备
+                iphone: false,
+                ipad: false,
+                ipod: false,
+                ios: false,
+                android: false,
+                nokiaN: false,
+                winMobile: false,
+        
+                // 游戏系统
+                wii: false,
+                ps: false
+              }
+        
+              /**
+               * 注意: 要正确的识别呈现引擎，关键是检测顺序要正确，由于用户代理字符串存在诸多不一致的地方，如果检测顺序不对，
+               *      很有可能导致检测结果不正确。
+               * 检测顺序: 
+               *    1. 识别 Opera，因为它的用户代理字符串有可能完全模仿其他浏览器。其用户代理字符串在任何情况下都不会将自己标识为 Opera。
+               *      检测 Opera，必须得检测 window.opera 对象，调用该对象的 version() 方法可以返回一个表示浏览器版本的字符串。
+               *      就是确定 Opera 版本号的最佳方式。
+               *    2. 识别 webkit, 因为 Webkit 的用户代理字符串中包含 'Gecko' 和 'KHTML' 这两个字符串，所以如果先检测它们
+               *      可能会出现错误的结论。不过，WebKit 的用户代理字符串中的 'AppleWibKit' 是独一无二的，因此检测这个字符串最合适。
+               *    3. 识别 KHTML: 因为 KHTML 的用户代理字符串中包含 'Gecko', 因此在排除 KHTML 之前，我们无法准确检测基于 Gecko 的浏览器。
+               *      KHTML 的版本号与 WebKit 的版本号在用户代理字符串中格式差不多，因此可以使用类似的正则表达式。
+               *      但是，由于 Konqueror3.1 及更早版本中不包含 KHTML 的版本，因此要使用 konqueror 的版本来代替。
+               *    4. 识别 Gecko: 因为我们将 WebKit 和 KHTML 已经排除在外了，Gecko的版本号不会出现在字符串 'Gecko' 后面，而是会出现在 'rv:'的后面。
+               *    5. 识别 IE: 因为 IE 的版本号位于字符串 'MSIE' 的后面，一个分号的前面，因此相应的正则表达式就非常简单。
+               */
+              var ua = navigator.userAgent
+        
+              if (window.opera) { // 检测 Opera
+                engine.ver = browser.ver = window.opera.version()
+                engine.opera = browser.opera = parseFloat(engine.ver)
+              } else if (/AppleWebKit\/(\S+)/.test(ua)) { // 检测 WebKit
+                engine.ver = RegExp['$1'] // 正则表达式第一个匹配的子匹配字符串
+                engine.webkit = parseFloat(engine.ver)
+        
+                // 确定是 safari 还是 Chrome
+                if (/Chrome\/(\S+)/.test(ua)) { // 如果是 Chrome
+                  browser.ver = RegExp['$1']
+                  browser.chrome = parseFloat(browser.ver)
+                } else if (/Version\/(\S+)/.test(ua)) { // 如果是 Safari
+                  browser.ver = RegExp['$1']
+                  browser.safari = parseFloat(browser.ver)
+                } else { // 低版本的 Safari
+                  // 近似的确定版本号
+                  var safariVersion = 1
+                  if (engine.webkit < 100) {
+                    safariVersion = 1
+                  } else if (engine.webkit < 312) {
+                    safariVersion = 1.2
+                  } else if (engine.webkit < 412) {
+                    safariVersion = 1.3
+                  } else {
+                    safariVersion = 2
+                  }
+                  browser.safari = browser.ver = safariVersion
+                }
+              } else if (/KHTML\/(\S+)/.test(us) || /Konqueror\/([^;]+)/.test(ua)) { // 检测 KTML
+                engine.ver = browser.ver = RegExp['$1']
+                engine.khtml = browser.khtml = parseFloat(engine.ver)
+              } else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)) { // 检测 Gecko
+                engine.ver = RegExp['$1']
+                engine.gecko = parseFloat(engine.ver)
+        
+                // 确定是否是 Firefox
+                if (/Firefox\/(\S+)/.test(ua)) {
+                  browser.ver = RegExp['$1']
+                  browser.firefox = parseFloat(browser.ver)
+                }
+              } else if (/MSIE ([^;]+)/.test(ua)) { // 检测 IE
+                engine.ver = browser.ver = RegExp['$1']
+                engine.ie = browser.ie = parseFloat(engine.ver)
+              }
+              browser.ie = engine.ie
+              browser.opera = engine.opera
+        
+              // 识别平台，通过 navigator.platform 属性
+              var p = navigator.platform
+              system.win = p.indexOf('Win') === 0
+              system.mac = p.indexOf('Mac') === 0
+              system.x11 = (p.indexOf('X11') === 0 || p.indexOf('Linux') === 0)
+        
+              // 检测 Windows 操作系统
+              if (system.win) {
+                if (/Win(?:dows )?([^do]{2})\s?(\d+\.\d+)?/.test(ua)) {
+                  if (RegExp['$1'] === 'NT') {
+                    switch (RegExp['$2']) {
+                      case '5.0':
+                        system.win = '2000'
+                        break
+                      case '5.1':
+                        system.win = 'XP'
+                        break
+                      case '6.0':
+                        system.win = 'Vista'
+                        break
+                      case '6.1':
+                        system.win = '7'
+                        break
+                      default:
+                        system.win = 'NT'
+                        break
+                    }
+                  } else if (RegExp['$1'] === '9x') {
+                    system.win = 'ME'
+                  } else {
+                    system.win = RegExp['$1']
+                  }
+                }
+              }
+        
+              // 检测移动设备
+              system.iphone = ua.indexOf('iPhone') > -1
+              system.ipod = ua.indexOf('iPod') > -1
+              system.ipad = ua.indexOf('iPad') > -1
+              system.nokiaN = ua.indexOf('NokiaN') > -1
+        
+              // Windows mobile
+              if (system.win === 'CE') {
+                system.winMobile = system.win
+              } else if (system.win === 'Ph') {
+                if (/Windows Phone OS (\d+\.\d+)/.test(ua)) {
+                  system.win = 'Phone'
+                  system.winMobile = parseFloat(RegExp['$1'])
+                }
+              }
+        
+              // 检测 iOS 版本
+              if (system.mac && ua.indexOf('Mobile') > -1) {
+                if (/CPU (?:iPhone )?OS (\d+_\d+)/.test(ua)) {
+                  system.ios = parseFloat(RegExp.$1.replace('_', '.'))
+                } else {
+                  system.ios = 2 // 不能真正检测出来，只能猜测
+                }
+              }
+        
+              // 检测 Android 版本
+              if (/Android (\d+\.\d+)/.test(ua)) {
+                system.android = parseFloat(RegExp.$1)
+              }
+        
+              // 游戏系统
+              system.wii = ua.indexOf('Wii') > -1
+              system.ps = /playstation/i.test(ua)
+        
+              // 在此检测呈现引擎，平台和设备
+              return {
+                engine: engine,
+                browser: browser,
+                system: system
+              }
+            }()
+        </code>
+      </pre>
+  </div>
   <script>
     // 为了不在全局中添加多余变量，将使用模块增强模式来封装检测脚本
     // 代码结构如下:
